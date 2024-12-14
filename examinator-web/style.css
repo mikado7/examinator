@@ -1,0 +1,19 @@
+.content {
+    padding: 0;
+    display : inline-block;
+}
+
+.btn {
+    height : fit-content;
+    width : fit-content;
+    padding: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+
+@media print {
+    .no-print {
+        display: none !important;
+    }
+}

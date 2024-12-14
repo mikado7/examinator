@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table th:each="question : ${questions}">
+    <tr>
+        <td colspan="3"></td>
+    </tr>
+    <tr>
+        <td th:text="${question.content}"></td>
+        <td th:text="${question.points}"></td>
+    </tr>
+    <tr th:each="answer, answerStat : ${question.answers}">
+        <td th:text="${answerStat.index + 1}"></td>
+        <td th:text="${answer.content}"></td>
+    </tr>
+</table>
+
+
+</body>
+</html>

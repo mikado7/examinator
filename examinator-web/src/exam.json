@@ -1,0 +1,110 @@
+{
+  "id": 2,
+  "name": "egzamin 3",
+  "questions": [
+    {
+      "content": "<p>Question 1 content?</p>",
+      "answers": [
+        { "content": "<p>Answer 1</p>", "isCorrect": false },
+        { "content": "<p>Answer 2</p>", "isCorrect": true },
+        { "content": "<p>Answer 3</p>", "isCorrect": false },
+        { "content": "<p>Answer 4</p>", "isCorrect": false },
+        { "content": "<p>Answer 5</p>", "isCorrect": false },
+        { "content": "<p>Answer 6</p>", "isCorrect": false }
+      ],
+      "sequence": 1,
+      "examId": 2
+    },
+    {
+      "content": "<p>Question 2 content?</p>",
+      "answers": [
+        { "content": "<p>Answer 1</p>", "isCorrect": false },
+        { "content": "<p>Answer 2</p>", "isCorrect": true },
+        { "content": "<p>Answer 3</p>", "isCorrect": false },
+        { "content": "<p>Answer 4</p>", "isCorrect": false },
+        { "content": "<p>Answer 5</p>", "isCorrect": false },
+        { "content": "<p>Answer 6</p>", "isCorrect": false }
+      ],
+      "sequence": 2,
+      "examId": 2
+    },
+    {
+      "content": "<p>Question 3 content?</p>",
+      "answers": [
+        { "content": "<p>Answer 1</p>", "isCorrect": false },
+        { "content": "<p>Answer 2</p>", "isCorrect": true },
+        { "content": "<p>Answer 3</p>", "isCorrect": false },
+        { "content": "<p>Answer 4</p>", "isCorrect": false },
+        { "content": "<p>Answer 5</p>", "isCorrect": false },
+        { "content": "<p>Answer 6</p>", "isCorrect": false }
+      ],
+      "sequence": 3,
+      "examId": 2
+    },
+    {
+      "content": "<p>Question 4 content?</p>",
+      "answers": [
+        { "content": "<p>Answer 1</p>", "isCorrect": false },
+        { "content": "<p>Answer 2</p>", "isCorrect": true },
+        { "content": "<p>Answer 3</p>", "isCorrect": false },
+        { "content": "<p>Answer 4</p>", "isCorrect": false },
+        { "content": "<p>Answer 5</p>", "isCorrect": false },
+        { "content": "<p>Answer 6</p>", "isCorrect": false }
+      ],
+      "sequence": 4,
+      "examId": 2
+    },
+    {
+      "content": "<p>Question 5 content?</p>",
+      "answers": [
+        { "content": "<p>Answer 1</p>", "isCorrect": false },
+        { "content": "<p>Answer 2</p>", "isCorrect": true },
+        { "content": "<p>Answer 3</p>", "isCorrect": false },
+        { "content": "<p>Answer 4</p>", "isCorrect": false },
+        { "content": "<p>Answer 5</p>", "isCorrect": false },
+        { "content": "<p>Answer 6</p>", "isCorrect": false }
+      ],
+      "sequence": 5,
+      "examId": 2
+    },
+    {
+      "content": "<p>Question 6 content?</p>",
+      "answers": [
+        { "content": "<p>Answer 1</p>", "isCorrect": false },
+        { "content": "<p>Answer 2</p>", "isCorrect": true },
+        { "content": "<p>Answer 3</p>", "isCorrect": false },
+        { "content": "<p>Answer 4</p>", "isCorrect": false },
+        { "content": "<p>Answer 5</p>", "isCorrect": false },
+        { "content": "<p>Answer 6</p>", "isCorrect": false }
+      ],
+      "sequence": 6,
+      "examId": 2
+    },
+    {
+      "content": "<p>Question 7 content?</p>",
+      "answers": [
+        { "content": "<p>Answer 1</p>", "isCorrect": false },
+        { "content": "<p>Answer 2</p>", "isCorrect": true },
+        { "content": "<p>Answer 3</p>", "isCorrect": false },
+        { "content": "<p>Answer 4</p>", "isCorrect": false },
+        { "content": "<p>Answer 5</p>", "isCorrect": false },
+        { "content": "<p>Answer 6</p>", "isCorrect": false }
+      ],
+      "sequence": 7,
+      "examId": 2
+    },
+    {
+      "content": "<p>Question 8 content?</p>",
+      "answers": [
+        { "content": "<p>Answer 1</p>", "isCorrect": false },
+        { "content": "<p>Answer 2</p>", "isCorrect": true },
+        { "content": "<p>Answer 3</p>", "isCorrect": false },
+        { "content": "<p>Answer 4</p>", "isCorrect": false },
+        { "content": "<p>Answer 5</p>", "isCorrect": false },
+        { "content": "<p>Answer 6</p>", "isCorrect": false }
+      ],
+      "sequence": 8,
+      "examId": 2
+    }
+  ]
+}
