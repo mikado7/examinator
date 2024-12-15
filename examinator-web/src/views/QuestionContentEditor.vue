@@ -18,11 +18,6 @@ onMounted(() => {
     modules: {
       toolbar: [
         ['formula'],
-        [
-          {
-            size: ['small', false, 'large', 'huge'],
-          },
-        ],
       ],
     },
     placeholder: 'Wprowadź treść pytania',
@@ -51,11 +46,25 @@ const handleKeydown = (e: KeyboardEvent) => {
 }
 </script>
 <template>
-  <div class="editor" :id="editorId" @keydown="handleKeydown($event)"/>
+  <div class="question-content-editor">
+    <div class="question-quill">
+      <div :id="editorId" @keydown="handleKeydown($event)"/>
+    </div>
+  </div>
 </template>
 <style>
-.editor {
-  width: 210mm;
+.question-content-editor {
+  display: flex;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+  gap: 0.5rem;
+}
 
+.question-quill {
+  width: calc((190mm/2) - 2.5em);
+  height: fit-content;
 }
 </style>

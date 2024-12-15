@@ -1,5 +1,8 @@
 package com.examinator.exam.question;
 
+import com.examinator.exam.Exam;
+import com.examinator.exam.ExamService;
+import com.examinator.exam.answer.AnswerRepository;
 import org.jsoup.Jsoup;
 import org.jsoup.parser.Parser;
 import org.jsoup.safety.Safelist;
@@ -10,9 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class QuestionServiceImpl implements QuestionService {
 
     private final QuestionRepository questionRepository;
+    private final ExamService examService;
+    private final AnswerRepository answerRepository;
 
-    public QuestionServiceImpl(QuestionRepository questionRepository) {
+    public QuestionServiceImpl(QuestionRepository questionRepository, ExamService examService, AnswerRepository answerRepository) {
         this.questionRepository = questionRepository;
+        this.examService = examService;
+        this.answerRepository = answerRepository;
     }
 
     public Question findQuestionById(Long id) {
@@ -20,27 +27,40 @@ public class QuestionServiceImpl implements QuestionService {
                 .orElseThrow();
     }
 
-    @Transactional
-    public Question save(Question question) {
-        if (question.getAnswers().size() > 8) {
-            throw new IllegalArgumentException();
+    public Question save(QuestionDTO dto, Exam exam) {
+        Question q;
+        if (dto.getId() == null) {
+            q = new Question();
+        } else {
+            q = questionRepository.findById(dto.getId())
+                    .orElseThrow();
         }
-        validateQuestion(question);
-        if (question.getSequence() == null) {
-            question.setSequence((long) (question.getExam()
-                    .getQuestions()
-                    .size() + 1));
-        }
-        return questionRepository.save(question);
+        q.setExam(exam);
+        q.setContent(dto.getContent());
+        q.setSequence(dto.getSequence());
+        q.getAnswers()
+                .clear();
+        dto.getAnswers()
+                .forEach(a -> {
+                    a.setQuestion(q);
+                    q.getAnswers()
+                            .add(a);
+                });
+
+        validateQuestion(q);
+        return questionRepository.save(q);
     }
 
+
+    @Transactional
     public void deleteQuestion(Long id) {
         questionRepository.deleteById(id);
     }
 
     private void validateQuestion(Question question) {
         Jsoup.parse(Jsoup.clean(question.getContent(), Safelist.basic()), Parser.htmlParser());
-        question.getAnswers().forEach(a -> Jsoup.parse(Jsoup.clean(a.getContent(), Safelist.basic()), Parser.htmlParser()));
+        question.getAnswers()
+                .forEach(a -> Jsoup.parse(Jsoup.clean(a.getContent(), Safelist.basic()), Parser.htmlParser()));
         ConstraintValidator.validate(question);
     }
 }

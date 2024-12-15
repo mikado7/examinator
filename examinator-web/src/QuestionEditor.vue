@@ -3,11 +3,13 @@ import {QUESTION_EDITOR_ID} from "@/const"
 import Modal from "@/components/modal/Modal.vue"
 import type {Question} from "@/question";
 import QuestionContentEditor from "@/views/QuestionContentEditor.vue";
-import {onMounted, type PropType, ref, watch} from "vue";
+import {type PropType, ref, watch} from "vue";
 import {toggleModal} from "@/components/modal/modal";
 import AnswerEditor from "@/AnswerEditor.vue";
 import {saveQuestion} from "@/question_service";
-import type {Answer} from "@/answer";
+import Icon from "@/components/modal/Icon.vue";
+
+const DELETE_ANSWER_MODAL_ID = 'delete-answer-modal-id';
 
 const props = defineProps({
   question: {
@@ -21,24 +23,31 @@ const emits = defineEmits<{
 }>()
 
 
-const questionRef = ref<Question>(props.question)
 const addAnswer = () => {
-  questionRef.value.answers.push({
+  props.question.answers.push({
     isCorrect: false,
     content: ''
   })
 }
+const selectedAnswer = ref<number>()
+const handleAnswerDelete = (e: MouseEvent, index: number) => {
+  const xPos = e.clientX;
+  const yPos = e.clientY;
+  const d = document.querySelector(`#${DELETE_ANSWER_MODAL_ID}`) as HTMLDialogElement
+  if (!d) return
+  d.style.left = `calc(${xPos}px - 4rem)`
+  d.style.top = `calc(${yPos}px - 4rem)`
+  selectedAnswer.value = index
+  toggleModal(e)
+}
 
-onMounted(() => {
-  console.log('re -render')
-})
-
-const deleteAnswer = (index: number) => {
-  questionRef.value.answers.splice(index, 1);
+const deleteAnswer = (e: Event, index: number) => {
+  props.question.answers.splice(index, 1);
+  toggleModal(e)
 }
 
 const save = async (event: Event) => {
-  const q = await saveQuestion(questionRef.value)
+  const q = await saveQuestion(props.question)
   toggleModal(event)
   emits("saved", q)
 }
@@ -55,39 +64,53 @@ const handleKeyDown = (e: KeyboardEvent) => {
     cancelBtn.value?.click()
   }
 }
-
-watch(props, (newProps) => {
-  questionRef.value = newProps.question
-})
 </script>
 
 <template>
-  <Modal :id="QUESTION_EDITOR_ID" @keydown="handleKeyDown($event)">
+  <Modal style="width: 40rem;" :id="QUESTION_EDITOR_ID" @keydown="handleKeyDown($event)">
     <template #header>
-      <h1>Edytujesz pytanie</h1>
+      <h2>Edytujesz pytanie</h2>
     </template>
     <template #body>
       <QuestionContentEditor
-        :content="questionRef.content"
-        @update:content="questionRef.content=$event"/>
-      <AnswerEditor v-for="(answer, answerIndex) in questionRef.answers"
+        :content="question.content"
+        @update:content="question.content=$event"/>
+      <AnswerEditor v-for="(answer, answerIndex) in question.answers"
+                    :key="answerIndex"
+                    :index="answerIndex"
                     :content="answer.content"
                     @update:content="answer.content=$event"
                     :isCorrect="answer.isCorrect"
                     @update:isCorrect="answer.isCorrect=$event">
         <template v-slot:deleteBtn>
-          <button @click="deleteAnswer(answerIndex)">Delete</button>
+          <Icon :data-target="DELETE_ANSWER_MODAL_ID" class="bi bi-trash clickable" :color="'red'"
+                title="Usuń odpowiedź" @click="handleAnswerDelete($event, answerIndex)"/>
         </template>
       </AnswerEditor>
-      <button @click="addAnswer">Add Answer</button>
+      <button class="btn" @click="addAnswer">Dodaj Odpowiedź</button>
     </template>
     <template #footer>
-      <button ref="cancelBtn" :data-target="QUESTION_EDITOR_ID" @click="cancel($event)">Anuluj</button>
-      <button ref="saveBtn" :data-target="QUESTION_EDITOR_ID" @click="save($event)">Save</button>
+      <button class="btn" ref="cancelBtn" :data-target="QUESTION_EDITOR_ID" @click="cancel($event)">Anuluj</button>
+      <button class="btn" ref="saveBtn" :data-target="QUESTION_EDITOR_ID" @click="save($event)">Zapisz</button>
+      <dialog class="delete-answer-dialog" :id="DELETE_ANSWER_MODAL_ID">
+        <article>
+          <header>Na pewno?</header>
+          <footer>
+            <button :data-target="DELETE_ANSWER_MODAL_ID" @click="toggleModal($event)">Anuluj</button>
+            <button :data-target="DELETE_ANSWER_MODAL_ID" @click="deleteAnswer($event, selectedAnswer)">Tak</button>
+          </footer>
+        </article>
+      </dialog>
     </template>
   </Modal>
 </template>
 
 <style scoped>
+
+.delete-answer-dialog {
+  margin: 0;
+  position: absolute;
+  z-index: 1000;
+}
 
 </style>

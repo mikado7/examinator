@@ -24,8 +24,8 @@ const handleEditorOutput = (output : Exam) => {
 </script>
 
 <template>
-  <div>
-    <h1>Egzaminy</h1>
+  <div style="padding: 2rem;">
+    <h2>Moje egzaminy</h2>
     <ul>
       <li v-for="exam in exams" :key="exam.id">
         {{ exam.name }}

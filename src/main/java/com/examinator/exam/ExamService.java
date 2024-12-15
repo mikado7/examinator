@@ -6,9 +6,9 @@ public interface ExamService {
 
     Exam findById(Long id);
 
-    Exam save(Exam exam);
+    Exam save(ExamDTO exam);
 
     void delete(Exam exam);
 
-    List<Exam> loadAll();
+    List<ExamDTO> loadAll();
 }

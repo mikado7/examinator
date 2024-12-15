@@ -53,12 +53,14 @@ watch(props, async (newProps) => {
 
 
 <template>
-  <Modal :id="EXAM_EDITOR_ID">
+  <Modal class="exam-editor"  :id="EXAM_EDITOR_ID">
     <template #header>
-      <h1>Edytujesz egzamin!</h1>
+      <h1>Wprowadź nazwę egzaminu!</h1>
     </template>
     <template #body>
+      <div class="container exam-editor-body">
       <input
+        class="exam-name-input"
         ref="nameInput"
         v-model="name"
         type="text"
@@ -68,7 +70,8 @@ watch(props, async (newProps) => {
         maxlength="100"
         aria-describedby="exam-validation-helper"
       >
-      <small v-show="invalid" id="exam-validation-helper">Nazwa egzaminu musi zawierać od 8 do 100 znaków</small>
+      <small :style="{visibility: invalid ? 'visible' : 'hidden'}" id="exam-validation-helper">Nazwa egzaminu musi zawierać od 8 do 100 znaków</small>
+        </div>
     </template>
     <template #footer>
       <button class="btn" ref="cancelBtn" :data-target="EXAM_EDITOR_ID" @click="cancel($event)">Close</button>
@@ -79,5 +82,18 @@ watch(props, async (newProps) => {
 </template>
 
 <style scoped>
+.exam-editor {
+  width: 30rem;
+}
 
+.exam-editor-body {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.exam-name-input {
+  width: 100%;
+  padding: 0.5rem;
+}
 </style>

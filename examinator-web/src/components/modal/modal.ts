@@ -5,18 +5,18 @@ const closingClass = "modal-is-closing";
 const scrollbarWidthCssVar = "--pico-scrollbar-width";
 
 
-let visibleModal = null;
+let visibleModal:any = null;
 
 export function toggleModal (event : Event) {
-  console.log('toggling modal')
-  console.log(event)
   event.preventDefault();
   const modal = document.getElementById((event.target as HTMLElement).dataset.target as string);
   if (!(modal instanceof HTMLDialogElement)) return;
   modal && (modal.open ? closeModal(modal) : openModal(modal));
-};
+}
 
 export function openModal(modal : HTMLDialogElement) {
+  console.log('open modal')
+  console.log(modal)
   const {documentElement: html} = document;
   html.classList.add(isOpenClass, openingClass)
   setTimeout(() => {
@@ -37,3 +37,10 @@ export function closeModal(modal : HTMLDialogElement) {
     modal.close();
   }, animationDuration);
 }
+
+document.addEventListener("click", (event) => {
+  if (visibleModal === null) return;
+  const modalContent = visibleModal.querySelector("article");
+  const isClickInside = modalContent.contains(event.target);
+  !isClickInside && closeModal(visibleModal);
+});

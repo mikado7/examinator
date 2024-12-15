@@ -10,7 +10,7 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      component: Home,
+      component: Exams,
     },
     {
       path: '/question-editor',

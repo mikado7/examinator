@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 const props = defineProps({
-  index : Number,
+  index: Number,
   content: String,
 })
 
@@ -10,20 +10,33 @@ const props = defineProps({
 
 <template>
   <div>
-    <span style="margin-right: 5px;">{{index}})</span>
-  <span class="ql-editor" v-html="content"></span>
-    <slot name="answers"></slot>
+    <header class="question-header">
+      <p style="margin-right:0.5rem" class="question-index">{{ index }})</p>
+      <span class="content ql-editor" v-html="content"></span>
+      <div style="width: 1rem">
+      <slot name="editBtn"></slot>
+      <slot name="deleteBtn"></slot>
+      </div>
+    </header>
+    <main>
+      <slot name="answers"></slot>
+    </main>
+
   </div>
 
 </template>
 
 <style scoped>
-.container {
-  display : flex;
-  text-align : center;
-  align-items : center;
-  justify-content : flex-start;
+.question-header {
+  width: 100%;
+  display: inline-flex;
 }
+
+.question-index {
+  line-height: 1.42;
+  margin: 0 1mm 0 0;
+}
+
 .ql-editor {
   padding: 0;
 }

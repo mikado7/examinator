@@ -1,5 +1,6 @@
 package com.examinator.exam.question;
 
+import com.examinator.exam.Exam;
 import com.examinator.exam.ExamService;
 import com.examinator.security.domain.user.UserService;
 import org.slf4j.Logger;
@@ -32,27 +33,22 @@ public class QuestionController {
 
     @PostMapping(value = "/question")
     @ResponseBody
-    public ResponseEntity<Question> post(@RequestBody Question question) {
-        if (question.getId() != null) {
-            Question currentQuestion = questionService.findQuestionById(question.getId());
-            if (currentQuestion == null) {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            return new ResponseEntity<>(questionService.save(question), HttpStatus.CREATED);
-        }
-        return new ResponseEntity<>(questionService.save(question), HttpStatus.CREATED);
+    public ResponseEntity<Question> post(@RequestBody QuestionDTO dto) {
+        Exam e = examService.findById(dto.getExamId());
+        return new ResponseEntity<>(questionService.save(dto, e), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/question/{id}")
     @ResponseBody
-    public ResponseEntity<Question> get(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(questionService.findQuestionById(id), HttpStatus.OK);
+    public ResponseEntity<QuestionDTO> get(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(questionService.findQuestionById(id).getDTO(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "question/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "question/{id}")
     @ResponseBody
-    public void deleteQuestion(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         questionService.deleteQuestion(id);
+        return ResponseEntity.ok().build();
     }
 
     private UserDetails getCurrentUser() {

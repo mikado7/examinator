@@ -5,6 +5,13 @@ import {onMounted, useId, watch} from "vue";
 const id = useId()
 let quill: Quill
 
+const props = defineProps({
+  index : {
+    type : Number,
+    required : true
+  }
+})
+
 const content = defineModel('content', {
   type: String,
   default: ''
@@ -22,35 +29,30 @@ onMounted(() => {
     modules: {
       toolbar: [
         ['formula'],
-        [
-          {
-            size: ['small', false, 'large', 'huge'],
-          },
-        ],
       ],
     },
     placeholder: 'Wprowadź treść odpowiedzi',
   })
   if (content.value) {
-    let delta = quill.clipboard.convert({html: content.value})
+    const delta = quill.clipboard.convert({html: content.value})
     delta.push({insert: ' '})
     quill.setContents(delta, "api")
   }
-  quill.on('text-change', (delta, oldDelta, source) => {
+  quill.on('text-change', () => {
     content.value = quill.getSemanticHTML()
   })
 })
 
 watch(content, (newContent) => {
   if (quill && newContent !== quill.getSemanticHTML()) {
-    let delta = quill.clipboard.convert({html: newContent})
+    const delta = quill.clipboard.convert({html: newContent})
     delta.push({insert: ' '})
     quill.setContents(delta, "api")
   }
 })
 
 function isQuillElement(el: HTMLElement): boolean {
-  for (let cl of el.classList) {
+  for (const cl of el.classList) {
     if (cl.startsWith('ql')) {
       return true;
     }
@@ -66,11 +68,34 @@ const handleKeydown = (e: KeyboardEvent) => {
 </script>
 
 <template>
-  <div :id="`editor_${id}`" @keydown="handleKeydown($event)" class="editor"></div>
-  <label :for="`isCorrect_${id}`">Poprawna: </label>
-  <input :id="`isCorrect_${id}`" type="checkbox" v-model="isCorrect"/>
-  <slot name="deleteBtn"></slot>
+  <div class="answer-editor">
+    <p style="flex: 0 0 auto; margin-top: auto; margin-bottom: auto">{{index+1}})</p>
+    <div style="margin-top: auto; margin-bottom: auto">
+      <label :for="`isCorrect_${id}`">Poprawna?</label>
+      <input :id="`isCorrect_${id}`" type="checkbox" v-model="isCorrect"/>
+    </div>
+    <div class="answer-quill">
+      <div :id="`editor_${id}`" @keydown="handleKeydown($event)"/>
+    </div>
+    <div>
+      <slot name="deleteBtn"></slot>
+    </div>
+  </div>
 </template>
 
 <style scoped>
+.answer-editor {
+  display: flex;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  padding: 0.5rem;
+  border: 1px solid lightgrey;
+  border-radius: 2px;
+  gap: 0.5rem;
+}
+
+.answer-quill {
+  width: calc((190mm/2) - 3em);
+  height: fit-content;
+}
 </style>

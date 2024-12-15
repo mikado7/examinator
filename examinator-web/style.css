@@ -1,19 +1,85 @@
-.content {
-    padding: 0;
-    display : inline-block;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+
+body {
+    font-family: 'Roboto', sans-serif !important;
+    margin: 0;
+    color: #1e293b;
 }
 
-.btn {
-    height : fit-content;
-    width : fit-content;
-    padding: 10px;
-    margin-left: 5px;
-    margin-right: 5px;
+h1{
+    margin: 0;
+}
+h2{
+    margin: 0;
 }
 
+.container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container-fluid {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 700px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .container {
+        max-width: 950px;
+    }
+}
+
+@media (min-width: 1280px) {
+    .container {
+        max-width: 1200px;
+    }
+}
 
 @media print {
     .no-print {
         display: none !important;
     }
+    ::-webkit-scrollbar {
+        display: none;
+    }
+    .btn {
+        display: none;
+    }
+}
+
+.btn {
+    padding: 0.5rem;
+    width: fit-content;
+    height: fit-content;
+    font-weight: bold;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.scrollable-x {
+    overflow-x: auto;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:visited {
+    color: #111827;
+}
+a:link {
+    color: #111827;
 }

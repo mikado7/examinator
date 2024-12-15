@@ -5,7 +5,6 @@ import com.examinator.exam.answer.Answer;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -14,10 +13,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(uniqueConstraints = {
+@Table( uniqueConstraints = {
         @UniqueConstraint(columnNames = { "exam_id", "sequence"})
 })
 @Getter
@@ -36,13 +36,12 @@ public class Question {
 
     @OneToMany(mappedBy = "question", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
+    @OrderBy("id asc")
     @Size(max = 8)
-    private Set<Answer> answers;
+    private Set<Answer> answers = new HashSet<>();
 
-    @ManyToOne
-    @JoinColumn(name = "exam_id")
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
-    @JsonProperty("examId")
     private Exam exam;
 
     private Long sequence;
@@ -51,4 +50,15 @@ public class Question {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonIgnore
     private Date createDate;
+
+    @JsonIgnore
+    public QuestionDTO getDTO() {
+        var dto = new QuestionDTO();
+        dto.setId(this.getId());
+        dto.setSequence(this.getSequence());
+        dto.setContent(this.getContent());
+        dto.setExamId(this.getExam()==null ? null : this.getExam().getId());
+        dto.setAnswers(this.getAnswers());
+        return dto;
+    }
 }

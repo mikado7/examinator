@@ -18,7 +18,10 @@ public class ExamController {
 
     @PostMapping(value = "/exam")
     @ResponseBody
-    public ResponseEntity<Exam> post(@RequestBody Exam exam) {
+    public ResponseEntity<Exam> post(@RequestBody ExamDTO exam) {
+        if (exam.getId() != null) {
+            examService.findById(exam.getId());
+        }
         return new ResponseEntity<>(examService.save(exam), HttpStatus.CREATED);
     }
 
@@ -38,8 +41,8 @@ public class ExamController {
 
     @RequestMapping(value = "/exam", method = RequestMethod.GET)
     @ResponseBody
-    public List<Exam> loadAllExams() {
-        return examService.loadAll();
+    public ResponseEntity<List<ExamDTO>> loadAllExams() {
+        return new ResponseEntity<>(examService.loadAll(), HttpStatus.OK);
     }
 
 }

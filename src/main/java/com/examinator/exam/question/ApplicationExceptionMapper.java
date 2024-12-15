@@ -26,6 +26,7 @@ public class ApplicationExceptionMapper {
 
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<ErrorResponse> handleException(HttpServletRequest request, Throwable e) {
+        e.printStackTrace();
         LOGGER.error("An error occurred: {}, cause: {}", e.getCause(), e.getMessage());
         HttpStatus status = EXCEPTION_STATUS_MAP.getOrDefault(e.getClass(), HttpStatus.INTERNAL_SERVER_ERROR);
         ErrorResponse errorResponse = new ErrorResponse();
