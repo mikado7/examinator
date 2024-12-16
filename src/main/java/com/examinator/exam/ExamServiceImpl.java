@@ -23,17 +23,17 @@ public class ExamServiceImpl implements ExamService {
         e.setId(dto.getId());
         e.setName(dto.getName());
         ConstraintValidator.validate(e);
-        System.out.println(dto.getQuestions().size());
-        if (dto.getQuestions() != null && !dto.getQuestions()
-                .isEmpty()) {
+        if (dto.getQuestions() != null && !dto.getQuestions().isEmpty()) {
             e.setQuestions(dto.getQuestions()
                     .stream()
-                    .peek(q -> q.setExam(e))
+                    .peek(q -> {
+                        q.setExam(e);
+                        q.setSequence(q.getSequence());
+                    })
                     .collect(Collectors.toSet()));
         } else if (dto.getId() != null) {
             Exam existingExam = examRepository.findByIdWithQuestions(dto.getId())
                     .orElseThrow(() -> new NoSuchElementException("Exam with id " + dto.getId() + " not found"));
-            existingExam.getQuestions().stream().forEach(q -> System.out.println(q.getSequence()));
             e.setQuestions(existingExam.getQuestions());
         }
         return examRepository.save(e);

@@ -119,18 +119,9 @@ const drop = async (event: DragEvent, targetIndex: number) => {
       exam.value?.questions.forEach((question, index) => {
         question.sequence = index + 1;
       });
-      console.log(JSON.stringify(exam.value))
-      const updatedSequences = exam.value?.questions.map(q => ({
-        id: q.id,
-        sequence: q.sequence
-      }))
-      console.log(updatedSequences)
-      exam.value = await saveExam({
-        id : exam.value.id,
-        name : exam.value?.name,
-        questions : updatedSequences
 
-      })
+      exam.value = await saveExam(exam.value)
+      console.log(JSON.stringify(exam.value))
     }
   }
 };
@@ -155,7 +146,7 @@ const drop = async (event: DragEvent, targetIndex: number) => {
                                 :color="'black'" :font-size="'1rem'" title="Edytuj nazwę"/></h3>
     </header>
     <main class="exam-body">
-      <QuestionComponent v-for="(question, questionIndex) in exam?.questions" :key="question.id"
+      <QuestionComponent v-for="(question, questionIndex) in exam?.questions?.sort((a, b) => a.sequence - b.sequence)" :key="question.id"
                          :index="questionIndex+1" :content="question.content" draggable="true" @dragstart="dragStart($event, question)" @dragover="dragOver" @drop="drop($event, questionIndex)">
         <template #editBtn>
           <Icon :data-target="QUESTION_EDITOR_ID"
@@ -169,7 +160,7 @@ const drop = async (event: DragEvent, targetIndex: number) => {
           </Icon>
         </template>
         <template #answers>
-          <AnswerComponent v-for="(answer, answerIndex) in question.answers" :key="answer.id"
+          <AnswerComponent v-for="(answer, answerIndex) in question.answers.sort((a, b) => a.id - b.id)" :key="answer.id"
                            :index="answerIndex"
                            :is-correct="answer.isCorrect"
                            :content="answer.content">

@@ -26,7 +26,7 @@ public class Exam {
     @Length(min = 8, max = 100)
     private String name;
 
-    @OneToMany(mappedBy = "exam", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "exam", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     @OrderBy("sequence ASC")
     private Set<Question> questions = new HashSet<>();
 

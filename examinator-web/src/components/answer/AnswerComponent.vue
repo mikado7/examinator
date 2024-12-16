@@ -24,11 +24,12 @@ const numToAlpha = (num: number) => {
 }
 
 .answer-index {
-  line-height: 1.42;
+  line-height: normal;
   margin: 0 1mm 0 1rem;
 }
 
 .ql-editor {
+  line-height: normal;
   padding: 0;
 }
 

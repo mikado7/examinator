@@ -95,6 +95,7 @@
     flex-direction: column;
     width: 100%;
     margin-bottom: 1em;
+    min-height: 1cm;
   }
 
   .page-body {
@@ -114,7 +115,7 @@
     width: 100%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: 5px;
+    grid-column-gap: 1rem;
     grid-row-gap: 1rem;
   }
 

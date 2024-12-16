@@ -17,9 +17,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table( uniqueConstraints = {
-        @UniqueConstraint(columnNames = { "exam_id", "sequence"})
-})
 @Getter
 @Setter
 @AllArgsConstructor
