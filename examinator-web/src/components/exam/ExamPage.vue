@@ -22,6 +22,8 @@
 
   const foo = ref<HTMLDivElement>()
   onUpdated(() => {
+    console.log(foo.value?.scrollHeight)
+    console.log(foo.value?.clientHeight)
     if (foo.value) {
       if (foo.value?.scrollHeight > foo.value?.clientHeight) {
         emits('overflown')
@@ -37,8 +39,9 @@
     <div class="a4-page">
       <header class="page-header">
         <div style="padding-left: 1cm; padding-top: 1cm; padding-right: 1cm">
-          <h2 v-if="index===1">{{ examTitle }}</h2>
-          <p v-if="index===1" style="display: block; width: 100%">Imię i nazwisko:</p>
+          <h3 v-if="index===1">{{ examTitle }}</h3>
+          <p v-if="index===1" style="">Imię i nazwisko:<div style="display:inline-block;width: 12rem;margin-left:0.25rem;padding-top:1rem;border-bottom: 2px dotted black"></div></p>
+          <p v-if="index===1" style="">Numer Albumu:<div style="display:inline-block;width: 6rem;margin-left:0.25rem;padding-top:1rem;border-bottom: 2px dotted black"></div></p>
         </div>
       </header>
       <main class="page-body" ref="foo">

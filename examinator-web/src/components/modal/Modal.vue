@@ -26,7 +26,7 @@ const emits = defineEmits(['opened'])
         <slot name="body"/>
         </div>
       </main>
-      <footer class="container modal-footer" style="padding-top: 1.25rem;">
+      <footer class="container modal-footer" style="padding-top: 1.25rem; padding-bottom: 1.25rem;">
         <div style="padding-left: 1.25rem; padding-right: 1.25rem;">
         <slot name="footer"/>
         </div>

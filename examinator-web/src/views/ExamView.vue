@@ -114,10 +114,8 @@ const handleModeChange = (s: 'printing' | 'editing') => {
   </nav>
   <div v-if="exam" v-show="mode === 'editing'" class="exam-view">
     <header class="exam-header">
-      <h2>{{ exam?.name }}</h2>
-      <Icon :data-target="EXAM_EDITOR_ID" @click="editExam($event)" class="bi bi-pencil-square clickable"
-            :color="'black'" title="Edytuj nazwę"/>
-      <p style="display: block; width: 100%">Imię i nazwisko: ___________________________________</p>
+      <h3>{{ exam?.name }}<Icon :data-target="EXAM_EDITOR_ID" @click="editExam($event)" class="bi bi-pencil-square clickable"
+                                :color="'black'" :font-size="'1rem'" title="Edytuj nazwę"/></h3>
     </header>
     <main class="exam-body">
       <QuestionComponent v-for="(question, questionIndex) in exam?.questions" :key="question.id"
@@ -188,8 +186,8 @@ const handleModeChange = (s: 'printing' | 'editing') => {
 }
 
 .exam-header {
-  display: inline-flex;
-  flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   margin-bottom: 1em;
 }

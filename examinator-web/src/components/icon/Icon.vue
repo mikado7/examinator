@@ -9,7 +9,7 @@ const props = defineProps({
   fontSize : {
     type : String,
     required : false,
-    default : '1em'
+    default : '1rem'
   }
 })
 
@@ -21,7 +21,7 @@ const props = defineProps({
 </template>
 <style scoped>
 .icon {
-  height : 1em;
-  width : 1em;
+  height : 1rem;
+  width : 1rem;
 }
 </style>
