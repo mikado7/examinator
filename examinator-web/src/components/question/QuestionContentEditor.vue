@@ -18,6 +18,7 @@ onMounted(() => {
     modules: {
       toolbar: [
         ['formula'],
+        [{ 'size': ['small', false, 'large', 'huge'] }],
       ],
     },
     placeholder: 'Wprowadź treść pytania',
@@ -52,7 +53,8 @@ const handleKeydown = (e: KeyboardEvent) => {
     </div>
   </div>
 </template>
-<style>
+<style scoped>
+
 .question-content-editor {
   display: flex;
   margin-bottom: 1rem;
@@ -64,7 +66,7 @@ const handleKeydown = (e: KeyboardEvent) => {
 }
 
 .question-quill {
-  width: calc((190mm/2) - 2.5em);
+  width: calc((190mm / 2) - 2.5em);
   height: fit-content;
 }
 </style>

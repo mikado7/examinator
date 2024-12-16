@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import {QUESTION_EDITOR_ID} from "@/const"
 import Modal from "@/components/modal/Modal.vue"
-import type {Question} from "@/question";
-import QuestionContentEditor from "@/views/QuestionContentEditor.vue";
+import type {Question} from "@/components/question/question";
+import QuestionContentEditor from "@/components/question/QuestionContentEditor.vue";
 import {type PropType, ref, watch} from "vue";
 import {toggleModal} from "@/components/modal/modal";
-import AnswerEditor from "@/AnswerEditor.vue";
-import {saveQuestion} from "@/question_service";
-import Icon from "@/components/modal/Icon.vue";
+import AnswerEditor from "@/components/answer/AnswerEditor.vue";
+import {saveQuestion} from "@/components/question/question_service";
+import Icon from "@/components/icon/Icon.vue";
 
 const DELETE_ANSWER_MODAL_ID = 'delete-answer-modal-id';
 
@@ -67,7 +67,7 @@ const handleKeyDown = (e: KeyboardEvent) => {
 </script>
 
 <template>
-  <Modal style="width: 40rem;" :id="QUESTION_EDITOR_ID" @keydown="handleKeyDown($event)">
+  <Modal style="width: 48rem;" :id="QUESTION_EDITOR_ID" @keydown="handleKeyDown($event)">
     <template #header>
       <h2>Edytujesz pytanie</h2>
     </template>

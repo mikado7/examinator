@@ -5,8 +5,8 @@ import Modal from "@/components/modal/Modal.vue";
 import {EXAM_EDITOR_ID} from "@/const";
 import {computed, onMounted, ref, watch} from "vue";
 import {toggleModal} from "@/components/modal/modal";
-import type {Exam} from "@/exam/exam";
-import {saveExam} from "@/exam/exam_service";
+import type {Exam} from "@/components/exam/exam";
+import {saveExam} from "@/components/exam/exam_service";
 
 const props = defineProps({
   examId: {

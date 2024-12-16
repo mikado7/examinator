@@ -10,7 +10,7 @@ const numToAlpha = (num: number) => {
 
 <template>
   <div class="answer">
-    <input class="no-print" :checked="isCorrect" type="checkbox" readonly>
+    <input v-if="typeof isCorrect != 'undefined'" class="no-print" :checked="isCorrect" type="checkbox" readonly>
     <p class="answer-index">{{numToAlpha(index)}})</p>
     <span class="content ql-editor" v-html="content"></span>
   </div>
@@ -20,8 +20,7 @@ const numToAlpha = (num: number) => {
 .answer {
   width: 100%;
   display: inline-flex;
-  align-items: center;
-  justify-content: flex-start;
+  margin-bottom: 0.25rem;
 }
 
 .answer-index {
@@ -30,7 +29,6 @@ const numToAlpha = (num: number) => {
 }
 
 .ql-editor {
-  line-height: 2;
   padding: 0;
 }
 

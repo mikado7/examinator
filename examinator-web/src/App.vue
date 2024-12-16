@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import Navbar from "@/views/Navbar.vue";
+import Navbar from "@/components/navbar/Navbar.vue";
 import {useId} from "vue";
 
 const vueId = useId()
 
 </script>
 <template>
-  <header>
+  <header id="app-header">
     <Navbar/>
   </header>
-  <main class="container scrollable-x">
+  <main id="app-main" class="container scrollable-x">
     <RouterView/>
   </main>
 </template>
@@ -25,7 +25,13 @@ main {
 }
 
 @media print {
-  main {
+  #app-main {
+    all: unset;
+  }
+  #app-header {
+    all: unset;
+  }
+  footer {
     all: unset;
   }
 

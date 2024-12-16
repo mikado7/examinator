@@ -4,7 +4,7 @@
 body {
     font-family: 'Roboto', sans-serif !important;
     margin: 0;
-    color: #1e293b;
+    color: rgba(0,0,0,0.95)
 }
 
 h1{
@@ -47,11 +47,17 @@ h2{
 }
 
 @media print {
+    body {
+        color: rgba(0,0,0,0.85)
+    }
     .no-print {
         display: none !important;
     }
     ::-webkit-scrollbar {
         display: none;
+    }
+    [class^="vue"], [id^="vue"] {
+        display: none !important;
     }
     .btn {
         display: none;

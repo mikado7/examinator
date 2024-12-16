@@ -1,9 +1,9 @@
 <script setup lang="ts">
 
-import type {Exam} from "@/exam/exam";
+import type {Exam} from "@/components/exam/exam";
 import {onMounted, type PropType, ref} from "vue";
-import ExamPage from "@/exam/ExamPage.vue";
-import type {Question} from "@/question";
+import ExamPage from "@/components/exam/ExamPage.vue";
+import type {Question} from "@/components/question/question";
 
 
 const props = defineProps({
@@ -13,11 +13,7 @@ const props = defineProps({
   }
 })
 
-export interface SequencedQuestion extends Question {
-  sequence: number;
-}
-
-const pages = ref<SequencedQuestion[][]>([[]])
+const pages = ref<Question[][]>([[]])
 
 onMounted(() => {
   if (props.exam.questions) {
@@ -39,9 +35,14 @@ const handlePageOverflow = (pageIndex: number) => {
     pages.value.push(lastTwoQuestions)
   }
 }
+
+const foo = () => {
+  window.print()
+}
 </script>
 
 <template>
+  <button class="btn" @click="foo">Foo</button>
   <div>
     <ExamPage v-for="(page, pageIndex) in pages" :index="pageIndex+1" :questions="page" :exam-title="pageIndex===0 ? exam.name : undefined"
               @overflown="handlePageOverflow(pageIndex)">

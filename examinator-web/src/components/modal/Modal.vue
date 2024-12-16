@@ -16,21 +16,28 @@ const emits = defineEmits(['opened'])
 <template>
   <dialog class="modal" :id="id" ref="root">
     <article>
-      <header class="container" style="margin-top: 0.5rem; margin-bottom: 1rem;">
+      <header class="container" style="padding-top: 1.25rem; padding-bottom: 1.25rem;">
+        <div style="padding-left: 1.25rem; padding-right: 1.25rem;">
         <slot name="header"/>
+        </div>
       </header>
-      <main class="container" style="margin-bottom: 1rem;">
+      <main class="container">
+        <div style="padding-left: 1.25rem; padding-right: 1.25rem;">
         <slot name="body"/>
+        </div>
       </main>
-      <footer class="container modal-footer">
+      <footer class="container modal-footer" style="padding-top: 1.25rem;">
+        <div style="padding-left: 1.25rem; padding-right: 1.25rem;">
         <slot name="footer"/>
+        </div>
       </footer>
     </article>
   </dialog>
 </template>
 
-<style scoped>
+<style>
 .modal {
+  padding: 0;
   border: 2px solid black;
   border-radius : 5px;
 }
@@ -38,7 +45,7 @@ const emits = defineEmits(['opened'])
 .modal-footer {
   display:inline-flex;
   justify-content: flex-end;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 

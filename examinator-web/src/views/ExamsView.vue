@@ -1,24 +1,28 @@
 <script setup lang="ts">
 
-import type {Exam} from "@/exam/exam";
+import type {Exam} from "@/components/exam/exam";
 import {onMounted, ref} from "vue";
-import {loadExams} from "@/exam/exam_service";
-import ExamEditor from "@/exam/ExamEditor.vue";
+import {loadExams} from "@/components/exam/exam_service";
+import ExamEditor from "@/components/exam/ExamEditor.vue";
 import {toggleModal} from "@/components/modal/modal";
 import {EXAM_EDITOR_ID} from "@/const";
 
+
+// data
 const exams = ref<Exam[]>([])
 
-const load = async () => {
-  exams.value = await loadExams()
-}
-
+//hooks
 onMounted(() => {
   load()
 })
 
-const handleEditorOutput = (output : Exam) => {
+// functions
+const handleEditorOutput = (output: Exam) => {
   exams.value.push(output)
+  }
+
+const load = async () => {
+  exams.value = await loadExams()
 }
 
 </script>
@@ -30,15 +34,13 @@ const handleEditorOutput = (output : Exam) => {
       <li v-for="exam in exams" :key="exam.id">
         {{ exam.name }}
         <RouterLink :to="{ name : 'exam', params : {examId : exam.id}}">
-          <button>Go to Exam</button>
+          <button class="btn">Idź do egzaminu</button>
         </RouterLink>
       </li>
     </ul>
-    <button :data-target="EXAM_EDITOR_ID" @click="toggleModal($event)">Dodaj egzamin</button>
+    <button class="btn" :data-target="EXAM_EDITOR_ID" @click="toggleModal($event)">Dodaj egzamin</button>
     <ExamEditor @saved="handleEditorOutput($event)"/>
-
   </div>
-
 </template>
 
 <style scoped>

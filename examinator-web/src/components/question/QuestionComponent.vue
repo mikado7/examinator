@@ -13,7 +13,7 @@ const props = defineProps({
     <header class="question-header">
       <p style="margin-right:0.5rem" class="question-index">{{ index }})</p>
       <span class="content ql-editor" v-html="content"></span>
-      <div style="width: 1rem">
+      <div>
       <slot name="editBtn"></slot>
       <slot name="deleteBtn"></slot>
       </div>
@@ -27,9 +27,11 @@ const props = defineProps({
 </template>
 
 <style scoped>
+
 .question-header {
   width: 100%;
-  display: inline-flex;
+  display: flex;
+  margin-bottom: 0.5rem;
 }
 
 .question-index {
@@ -40,5 +42,4 @@ const props = defineProps({
 .ql-editor {
   padding: 0;
 }
-
 </style>

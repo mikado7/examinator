@@ -1,29 +1,35 @@
 <script setup lang="ts">
 
-import type {Exam} from "@/exam/exam";
+import type {Exam} from "@/components/exam/exam";
 import {onBeforeMount, ref} from "vue";
-import {loadExam} from "@/exam/exam_service";
+import {loadExam} from "@/components/exam/exam_service";
 import {EXAM_EDITOR_ID, QUESTION_EDITOR_ID} from "@/const";
-import QuestionEditor from "@/QuestionEditor.vue";
+import QuestionEditor from "@/components/question/QuestionEditor.vue";
 import {toggleModal} from "@/components/modal/modal";
-import type {Question} from "@/question";
-import QuestionComponent from "@/views/QuestionComponent.vue"
-import ExamEditor from "@/exam/ExamEditor.vue";
-import Answer from "@/views/Answer.vue";
-import Icon from "@/components/modal/Icon.vue";
-import {deleteQuestion} from "@/question_service";
-import ExamPrint from "@/exam/ExamPrint.vue";
+import type {Question} from "@/components/question/question";
+import QuestionComponent from "@/components/question/QuestionComponent.vue"
+import ExamEditor from "@/components/exam/ExamEditor.vue";
+import AnswerComponent from "@/components/answer/AnswerComponent.vue";
+import Icon from "@/components/icon/Icon.vue";
+import {deleteQuestion} from "@/components/question/question_service";
+import ExamPrint from "@/views/ExamPrint.vue";
+import Modal from "@/components/modal/Modal.vue";
 
 const DELETE_QUESTION_MODAL_ID = 'delete-question-dialog'
 
 const props = defineProps({
   examId: {
-    type: Number,
-    required: true
+    type: String,
+    required: true,
   }
 });
 
 const exam = ref<Exam>()
+const selectedQuestion = ref<Question>(<Question>{
+  content: '',
+  examId: exam.value?.id,
+  answers: []
+})
 
 onBeforeMount(async () => {
   const examId = Number(props.examId)
@@ -33,11 +39,6 @@ onBeforeMount(async () => {
   exam.value = await loadExam(examId)
 })
 
-const selectedQuestion = ref<Question>(<Question>{
-  content: '',
-  examId: exam.value?.id,
-  answers: []
-})
 
 const createNewQuestion = (e: Event) => {
   if (exam.value?.id) {
@@ -61,6 +62,7 @@ const handleEditorOutput = (editorOutput: Question) => {
 }
 
 const editQuestion = (question: Question, e: Event) => {
+  if (!exam.value) return
   selectedQuestion.value = {...question, examId: props.examId}
   selectedQuestion.value.answers = question.answers.map(a => ({...a}))
   toggleModal(e)
@@ -111,32 +113,32 @@ const handleModeChange = (s: 'printing' | 'editing') => {
     </ul>
   </nav>
   <div v-if="exam" v-show="mode === 'editing'" class="exam-view">
-    <header class="page-header">
-      <h2 class="content"> {{ exam?.name }}</h2>
+    <header class="exam-header">
+      <h2>{{ exam?.name }}</h2>
       <Icon :data-target="EXAM_EDITOR_ID" @click="editExam($event)" class="bi bi-pencil-square clickable"
             :color="'black'" title="Edytuj nazwę"/>
       <p style="display: block; width: 100%">Imię i nazwisko: ___________________________________</p>
     </header>
-    <main class="page-body">
+    <main class="exam-body">
       <QuestionComponent v-for="(question, questionIndex) in exam?.questions" :key="question.id"
                          :index="questionIndex+1" :content="question.content">
         <template #editBtn>
           <Icon :data-target="QUESTION_EDITOR_ID"
-                @click="editQuestion(question, $event)" style="margin-right: 4px" class="bi bi-pencil-square clickable"
+                @click="editQuestion(question, $event)" class="bi bi-pencil-square clickable"
                 :color="'black'" title="Edytuj pytanie">
           </Icon>
         </template>
         <template #deleteBtn>
           <Icon :data-target="DELETE_QUESTION_MODAL_ID" @click="toggleDeleteModal($event, question)"
-                style="margin-right: 4px" class="bi bi-trash clickable" :color="'red'" title="Usuń pytanie">Delete
+                class="bi bi-trash clickable" :color="'red'" title="Usuń pytanie">Delete
           </Icon>
         </template>
         <template #answers>
-          <Answer v-for="(answer, answerIndex) in question.answers" :key="answer.id"
-                  :index="answerIndex"
-                  :is-correct="answer.isCorrect"
-                  :content="answer.content">
-          </Answer>
+          <AnswerComponent v-for="(answer, answerIndex) in question.answers" :key="answer.id"
+                           :index="answerIndex"
+                           :is-correct="answer.isCorrect"
+                           :content="answer.content">
+          </AnswerComponent>
         </template>
       </QuestionComponent>
       <button class="btn" :data-target="QUESTION_EDITOR_ID"
@@ -147,23 +149,27 @@ const handleModeChange = (s: 'printing' | 'editing') => {
     <QuestionEditor
       :question="selectedQuestion"
       @saved="handleEditorOutput($event)"/>
-    <RouterLink v-if="exam" :to="{ name : 'generate-exam', params : {examId : exam.id}}">
-      <button class="btn">Generuj egzamin</button>
-    </RouterLink>
-    <dialog class="delete-question-dialog" :id="DELETE_QUESTION_MODAL_ID">
-      <article>
-        <header>Na pewno?</header>
-        <footer>
-          <button class="btn" :data-target="DELETE_QUESTION_MODAL_ID" @click="toggleModal($event)">Anuluj</button>
-          <button class="btn" :data-target="DELETE_QUESTION_MODAL_ID" @click="deleteQ($event)">Tak</button>
-        </footer>
-      </article>
-    </dialog>
+    <Modal class="modal delete-question-dialog" :id="DELETE_QUESTION_MODAL_ID">
+      <template #header><h2>Na pewno?</h2></template>
+      <template #footer>
+        <button class="btn" :data-target="DELETE_QUESTION_MODAL_ID" @click="toggleModal($event)">Anuluj</button>
+        <button class="btn" :data-target="DELETE_QUESTION_MODAL_ID" @click="deleteQ($event)">Usuń</button>
+      </template>
+    </Modal>
   </div>
   <ExamPrint v-if="mode === 'printing' && exam" :exam="exam"/>
 </template>
 
 <style scoped>
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  list-style-type: none;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  box-shadow: 0 0 5px lightgrey;
+}
+
 .exam-view {
   padding-left: 1cm;
   padding-right: 1cm;
@@ -181,24 +187,18 @@ const handleModeChange = (s: 'printing' | 'editing') => {
   }
 }
 
-.page-header {
+.exam-header {
   display: inline-flex;
   flex-wrap: wrap;
   width: 100%;
-  //margin-top: 1em;
   margin-bottom: 1em;
-
 }
 
-.content {
-  display: inline-block;
-}
-
-.page-body {
+.exam-body {
   width: 100%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-column-gap: 5px;
+  grid-column-gap: 0.5rem;
   grid-row-gap: 1rem;
   max-height: calc(100% - 1cm);
   overflow-y: auto;
@@ -208,16 +208,6 @@ const handleModeChange = (s: 'printing' | 'editing') => {
   margin: 0;
   position: absolute;
   z-index: 1000;
-}
-
-
-.tabs {
-  display: flex;
-  flex-wrap: wrap;
-  list-style-type: none;
-  margin-top: 0;
-  margin-bottom: 0;
-
 }
 
 </style>

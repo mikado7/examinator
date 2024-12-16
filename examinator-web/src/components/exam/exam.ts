@@ -1,4 +1,4 @@
-import type {Question} from "@/question";
+import type {Question} from "@/components/question/question";
 
 export interface Exam {
   id?: number;

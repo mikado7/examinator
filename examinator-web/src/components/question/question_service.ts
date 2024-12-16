@@ -1,4 +1,4 @@
-import type {Question} from "@/question";
+import type {Question} from "@/components/question/question";
 
 export async function saveQuestion(question: Question): Promise<Question> {
   const response: Response = await fetch('http://localhost:8080/api/question', {

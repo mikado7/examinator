@@ -1,36 +1,19 @@
 import {createRouter, createWebHistory} from 'vue-router'
-import QuestionEditor from '@/views/QuestionContentEditor.vue'
-import Home from '@/Home.vue'
-import Exam from "@/exam/Exam.vue";
-import Exams from "@/exam/Exams.vue";
-import GeneratedExam from "@/views/GenerateExam.vue";
+import ExamView from "@/views/ExamView.vue";
+import ExamsView from "@/views/ExamsView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      component: Exams,
-    },
-    {
-      path: '/question-editor',
-      component: QuestionEditor,
+      component: ExamsView,
     },
     {
       path: '/exam/:examId',
       name: 'exam',
-      component: Exam,
+      component: ExamView,
       props: true,
-    },
-    {
-      path: '/exams',
-      component: Exams,
-    },
-    {
-      path: '/generate-exam/:examId',
-      name: 'generate-exam',
-      component: GeneratedExam,
-      props: true
     }
   ],
 })
