@@ -21,6 +21,7 @@ public class ExamController {
     public ResponseEntity<Exam> post(@RequestBody ExamDTO exam) {
         if (exam.getId() != null) {
             examService.findById(exam.getId());
+            return new ResponseEntity<>(examService.save(exam), HttpStatus.OK);
         }
         return new ResponseEntity<>(examService.save(exam), HttpStatus.CREATED);
     }

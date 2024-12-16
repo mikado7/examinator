@@ -2,7 +2,7 @@
 
 import type {Exam} from "@/components/exam/exam";
 import {onBeforeMount, ref} from "vue";
-import {loadExam} from "@/components/exam/exam_service";
+import {loadExam, saveExam} from "@/components/exam/exam_service";
 import {EXAM_EDITOR_ID, QUESTION_EDITOR_ID} from "@/const";
 import QuestionEditor from "@/components/question/QuestionEditor.vue";
 import {toggleModal} from "@/components/modal/modal";
@@ -98,6 +98,43 @@ const handleModeChange = (s: 'printing' | 'editing') => {
   mode.value = s
 }
 
+const dragStart = (event: DragEvent, question: Question) => {
+  console.log(question)
+  event.dataTransfer?.setData('text/plain', JSON.stringify(question));
+};
+
+const dragOver = (event: DragEvent) => {
+  event.preventDefault();
+};
+
+const drop = async (event: DragEvent, targetIndex: number) => {
+  event.preventDefault();
+  const data = event.dataTransfer?.getData('text/plain');
+  if (data && exam.value) {
+    const draggedQuestion = JSON.parse(data) as Question;
+    const draggedIndex = exam.value?.questions.findIndex(q => q.id === draggedQuestion.id);
+    if (draggedIndex !== undefined && draggedIndex !== -1) {
+      exam.value?.questions.splice(draggedIndex, 1);
+      exam.value?.questions.splice(targetIndex, 0, draggedQuestion);
+      exam.value?.questions.forEach((question, index) => {
+        question.sequence = index + 1;
+      });
+      console.log(JSON.stringify(exam.value))
+      const updatedSequences = exam.value?.questions.map(q => ({
+        id: q.id,
+        sequence: q.sequence
+      }))
+      console.log(updatedSequences)
+      exam.value = await saveExam({
+        id : exam.value.id,
+        name : exam.value?.name,
+        questions : updatedSequences
+
+      })
+    }
+  }
+};
+
 </script>
 <template>
   <nav class="no-print">
@@ -119,7 +156,7 @@ const handleModeChange = (s: 'printing' | 'editing') => {
     </header>
     <main class="exam-body">
       <QuestionComponent v-for="(question, questionIndex) in exam?.questions" :key="question.id"
-                         :index="questionIndex+1" :content="question.content">
+                         :index="questionIndex+1" :content="question.content" draggable="true" @dragstart="dragStart($event, question)" @dragover="dragOver" @drop="drop($event, questionIndex)">
         <template #editBtn>
           <Icon :data-target="QUESTION_EDITOR_ID"
                 @click="editQuestion(question, $event)" class="bi bi-pencil-square clickable"

@@ -18,7 +18,6 @@ onMounted(() => {
     modules: {
       toolbar: [
         ['formula'],
-        [{ 'size': ['small', false, 'large', 'huge'] }],
       ],
     },
     placeholder: 'Wprowadź treść pytania',

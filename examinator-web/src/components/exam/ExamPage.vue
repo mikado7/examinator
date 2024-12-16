@@ -40,8 +40,8 @@
       <header class="page-header">
         <div style="padding-left: 1cm; padding-top: 1cm; padding-right: 1cm">
           <h3 v-if="index===1">{{ examTitle }}</h3>
-          <p v-if="index===1" style="">Imię i nazwisko:<div style="display:inline-block;width: 12rem;margin-left:0.25rem;padding-top:1rem;border-bottom: 2px dotted black"></div></p>
-          <p v-if="index===1" style="">Numer Albumu:<div style="display:inline-block;width: 6rem;margin-left:0.25rem;padding-top:1rem;border-bottom: 2px dotted black"></div></p>
+          <p v-if="index===1" style="">Imię i nazwisko: ................................................</p>
+          <p v-if="index===1" style="">Numer Albumu: ...................</p>
         </div>
       </header>
       <main class="page-body" ref="foo">
