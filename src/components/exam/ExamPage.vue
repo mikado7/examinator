@@ -50,7 +50,7 @@
                              :index="question.sequence" :content="question.content" :key="questionIndex"
                              >
             <template #answers>
-              <Answer v-for="(answer, answerIndex) in question.answers" :index="answerIndex+1"
+              <Answer v-for="(answer, answerIndex) in question.answers" :index="answerIndex"
                       :content="answer.content"></Answer>
             </template>
           </QuestionComponent>

@@ -6,12 +6,10 @@ import {loadExams} from "@/db/service/exam_service";
 import ExamEditor from "@/components/exam/ExamEditor.vue";
 import {toggleModal} from "@/components/modal/modal";
 import {EXAM_EDITOR_ID} from "@/const";
-import {addExampleData} from "@/db/db";
 
 const exams = ref<Exam[]>([])
 
 onMounted(async () => {
-  await addExampleData()
   await load()
 })
 

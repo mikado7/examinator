@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import Navbar from "@/components/navbar/Navbar.vue";
-import {useId} from "vue";
+import {onBeforeMount, useId} from "vue";
+import {addExampleData} from "@/db/db";
 
 const vueId = useId()
+
+onBeforeMount(async () => {
+  await addExampleData()
+})
 
 </script>
 <template>
