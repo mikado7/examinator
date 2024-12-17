@@ -19,13 +19,13 @@ const numToAlpha = (num: number) => {
 <style scoped>
 .answer {
   width: 100%;
-  display: inline-flex;
+  display: flex;
   margin-bottom: 0.25rem;
 }
 
 .answer-index {
   line-height: normal;
-  margin: 0 1mm 0 1rem;
+  margin: 0 0.5rem 0 0;
 }
 
 .ql-editor {

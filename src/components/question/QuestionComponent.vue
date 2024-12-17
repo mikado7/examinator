@@ -37,7 +37,7 @@ const props = defineProps({
 
 .question-index {
   line-height: normal;
-  margin: 0 1mm 0 0;
+  margin: 0 0.5rem 0 0;
 }
 
 .ql-editor {

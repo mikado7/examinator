@@ -75,6 +75,7 @@ h3{
     width: fit-content;
     height: fit-content;
     font-weight: bold;
+    font-family: inherit;
 }
 
 .clickable {
