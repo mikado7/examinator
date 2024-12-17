@@ -13,5 +13,3 @@ app.use(router)
 
 app.mount('#app')
 
-await addExampleData()
-
